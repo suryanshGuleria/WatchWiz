@@ -14,7 +14,7 @@ connectDB();
 const app = express();
 
 //middlewares
-app.use(express.json());
+app.use(express.json()); //as body parser
 app.use(morgan("dev"));
 
 //routes
