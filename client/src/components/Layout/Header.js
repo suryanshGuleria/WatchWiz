@@ -1,7 +1,24 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import toast from "react-hot-toast";
 
 const Header = () => {
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    setTimeout(() => {
+      navigate("/login");
+    }, 500);
+    toast.success("Logged out Successfully");
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -32,16 +49,28 @@ const Header = () => {
                   Category
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to="/Register" className="nav-link">
-                  Register
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/login" className="nav-link">
-                  Login
-                </NavLink>
-              </li>
+              {!auth.user ? (
+                <>
+                  <li className="nav-item">
+                    <NavLink to="/Register" className="nav-link">
+                      Register
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/login" className="nav-link">
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <NavLink onClick={handleLogout} className="nav-link">
+                      Logout
+                    </NavLink>
+                  </li>
+                </>
+              )}
               <li className="nav-item">
                 <NavLink to="/cart" className="nav-link">
                   Cart (0)

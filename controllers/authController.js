@@ -50,13 +50,13 @@ export const registerController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Errro in Registeration",
+      message: "Errror in Registeration",
       error,
     });
   }
 };
 
-//POST LOGIN
+//POST request for LOGIN
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -79,7 +79,7 @@ export const loginController = async (req, res) => {
     if (!match) {
       return res.status(200).send({
         success: false,
-        message: "Invalid Password",
+        message: "Incorrect Credentials",
       });
     }
     //token
